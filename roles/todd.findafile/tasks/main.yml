@@ -1,0 +1,34 @@
+---
+- name: Find files
+  find:
+    paths: "{{ pathy }}"
+    patterns: "{{ patt }}"
+    # size: 10m
+    recurse: yes
+    #follow: yes
+  register: results
+
+- name: what the heck is in the results
+  debug:
+    #var: results.files
+    var: item
+    verbosity: 1
+  #loop: results.files
+  loop: "{{ results | json_query('files[*].path') }}"
+
+# create a directory to store our results in
+- name: create a dir to save our stuff in
+  file:
+    path: ~/searchresults/
+    state: directory
+  delegate_to: localhost
+  run_once: yes
+
+# parse the results that come back (loop)
+# pull them back to the controller (fetch module)
+- name: pull our files back to the controller
+  fetch:
+    src: "{{ item.path }}"
+    dest: "~/searchresults/{{ inventory_hostname }}/"
+    flat: yes
+  loop: "{{ results.files }}"

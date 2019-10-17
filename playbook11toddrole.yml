@@ -1,0 +1,10 @@
+---
+- name: using my role
+  gather_facts: yes
+  hosts: planetexpress
+
+  vars:
+    patt: ".bash*,.profile"
+
+  roles:
+    - todd.findafile

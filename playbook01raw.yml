@@ -1,0 +1,15 @@
+---
+- name: Use ansible to install Python
+  ## turn off gather facts or setup.py
+  gather_facts: no
+  hosts: planetexpress
+
+  tasks:
+          - name: using raw module
+            raw: apt update -y
+            become: yes
+
+          - name: using raw module to install python
+            raw: apt install python3-pip -y
+            become: yes
+

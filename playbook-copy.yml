@@ -1,0 +1,27 @@
+---
+- name: copy files
+  hosts: planetexpress:!bender
+
+  tasks:
+  - name: Copy Fry's resume to hosts
+    copy:
+      src: ~/ans/files/fry.txt
+      dest: ~/fry-resume.txt
+
+- name: fetch files
+  hosts: planetexpress
+
+  tasks:
+  - name: Fetch Fry's resume from hosts
+    fetch:
+      src: ~/fry-resume.txt
+      dest: ~/ans/fetched
+
+#- name: Delete files
+#  hosts: planetexpress
+#
+#  tasks:
+#  - name: Delete Fry's resume from hosts
+#    file:
+#      path: ~/fry-resume.txt
+##      state: absent
